@@ -6,8 +6,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { forbiddenKeywords } from "@/src/constands";
 
+
 export default function SearchBar() {
   const [query, setQuery] = useState("");
+
+
   const [searchError, setSearchError] = useState<string | null>(null);
   const { searchContent, searchResults, searchLoading } = useMovieStore();
 
@@ -85,9 +88,8 @@ export default function SearchBar() {
                 {searchResults.map((item) => (
                   <Link 
                     key={item.id} 
-                    href={`/watch/${item.id}?type=${item.media_type || 'movie'}`}
+                    href={`/movie/${item.id}?type=${item.media_type || 'movie'}`}
                     onClick={() => setQuery("")}
-                    // Replaced white/5 with foreground/5
                     className="flex gap-4 p-3 rounded-2xl hover:bg-foreground/5 transition-all group border border-transparent hover:border-border"
                   >
                     {/* Poster Image */}

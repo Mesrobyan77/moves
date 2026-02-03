@@ -17,6 +17,7 @@ import Loading from "@/src/components/ui/Loading";
 import Pagination from "@/src/components/ui/Pagination";
 import { IMovie } from "@/src/types";
 import { forbiddenKeywords } from "@/src/constands";
+import PricingSection from "@/src/components/ui/PricingPlans";
 
 export default function CatalogPage() {
   const { t } = useTranslation();
@@ -275,6 +276,8 @@ export default function CatalogPage() {
           </>
         )}
       </section>
+
+      <PricingSection/>
     </main>
   );
 }

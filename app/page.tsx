@@ -7,9 +7,12 @@ import MovieCarousel from "@/src/components/ui/Swiper";
 import MovieError from "@/src/components/ui/MovieError";
 import PricingSection from "@/src/components/ui/PricingPlans";
 import { useTranslation } from "@/src/hooks/useTranslation";
+import { useLanguageStore } from "@/src/store/useLanguageStore";
 
 export default function Home() {
   const { t } = useTranslation();
+  const { lang } = useLanguageStore();
+
   const {
     movies,
     tabContent,
@@ -25,7 +28,7 @@ export default function Home() {
     getMovies();
     fetchUpcoming();
     fetchContentByTab("New items");
-  }, [getMovies, fetchUpcoming, fetchContentByTab]);
+  }, [getMovies, fetchUpcoming, fetchContentByTab, lang]);
 
   const handleTabChange = useCallback(
     (tab: string) => {
@@ -53,7 +56,7 @@ export default function Home() {
       <section className="relative">
         <MovieCarousel
           movies={movies}
-          title={[t('home.hero_new'), t('home.hero_season')]}
+          title={[t("home.hero_new"), t("home.hero_season")]}
         />
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       </section>
@@ -73,7 +76,7 @@ export default function Home() {
       <section className="container mx-auto px-2 py-12">
         <MovieCarousel
           movies={upcoming}
-          title={[t('home.expected'), t('home.premiere')]}
+          title={[t("home.expected"), t("home.premiere")]}
           viewAll={true}
         />
       </section>

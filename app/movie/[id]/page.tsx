@@ -9,12 +9,14 @@ import MovieError from "@/src/components/ui/MovieError";
 import Loading from "@/src/components/ui/Loading";
 import MovieDiscoverySection from "@/src/components/MovieDiscoverySection";
 import { IMovie, IMovieDetails, ITMDBDetails } from "@/src/types";
+import { useLanguageStore } from "@/src/store/useLanguageStore";
 
 export default function MovieDetailsPage() {
   const { id } = useParams();
   const { t } = useTranslation();
   const searchParams = useSearchParams();
   const typeHelper = searchParams.get("type");
+const { lang } = useLanguageStore();
   
   const {
     currentMovie,
@@ -35,7 +37,7 @@ export default function MovieDetailsPage() {
       fetchRecommendations(id as string, typeHelper || "");
       fetchSimilar(id as string, typeHelper || "");
     }
-  }, [id, typeHelper, fetchByIdAndType, fetchUpcoming, fetchRecommendations, fetchSimilar]);
+  }, [id, typeHelper, fetchByIdAndType, fetchUpcoming, fetchRecommendations, fetchSimilar, lang]);
 
   const movieData = useMemo(() => {
     if (!currentMovie) return null;
