@@ -10,7 +10,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((config) => {
-  let lang = "en";  
+  let lang = "en";
 
   if (typeof window !== "undefined") {
     const storage = localStorage.getItem("hotflix-language");
@@ -24,11 +24,12 @@ instance.interceptors.request.use((config) => {
     }
   }
 
-  const tmdbLang = {
-    am: "ru-RU",
-    ru: "ru-RU",
-    en: "en-US",
-  }[lang] || "en-US";
+  const tmdbLang =
+    {
+      am: "ru-RU",
+      ru: "ru-RU",
+      en: "en-US",
+    }[lang] || "en-US";
 
   config.params = {
     ...config.params,
@@ -49,10 +50,6 @@ export const API = {
     }),
   getMovieDetails: (id: string) => instance.get(`movie/${id}`),
   getTVDetails: (id: string) => instance.get(`tv/${id}`),
-  getRecommendations: (type: string, id: string) =>
-    instance.get(`${type}/${id}/recommendations`),
-  getSimilar: (type: string, id: string) =>
-    instance.get(`${type}/${id}/similar`),
   getGenres: (type = "movie") => instance.get(`genre/${type}/list`),
   discover: (type: string, params: Record<string, any>) =>
     instance.get(`discover/${type}`, { params }),
@@ -65,4 +62,8 @@ export const API = {
         include_adult: false,
       },
     }),
+  getRecommendations: (type: string, id: string | number) =>
+    instance.get(`${type}/${id}/recommendations`),
+  getSimilar: (type: string, id: string | number) =>
+    instance.get(`${type}/${id}/similar`),
 };
