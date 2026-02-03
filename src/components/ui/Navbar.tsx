@@ -3,15 +3,32 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "../Logo";
-import { navigationLinks } from "@/src/constands";
 import { Menu, X, ChevronDown } from "lucide-react";
 import SearchBar from "./SearchBar";
 import LanguageSelect from "./LanguageSelect";
 import ThemeToggle from "./ThemeToggle";
+import { useTranslation } from "@/src/hooks/useTranslation";
 
 function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
+  
+  const navLinks = [
+    { name: t("nav.home"), href: "/" },
+    { name: t("nav.pricing"), href: "/pricing" },
+    { name: t("nav.help"), href: "/help" },
+    {
+      name: t("nav.catalog"),
+      href: "/catalog",
+      links: [
+        { name: t("nav.about_us"), href: "/about" },
+        { name: t("nav.help_center"), href: "/help" },
+        { name: t("nav.contacts"), href: "/contacts" },
+        { name: t("nav.privacy"), href: "/privacy" },
+      ],
+    },
+  ];
 
   return (
     <nav className="border-b border-border bg-background/80 backdrop-blur-md h-20 flex items-center sticky top-0 z-[100] transition-colors duration-300">
@@ -35,7 +52,7 @@ function Navbar() {
 
         {/* Desktop Navigation Links */}
         <ul className="hidden md:flex items-center space-x-6 lg:space-x-8">
-          {navigationLinks.map((link) => (
+          {navLinks.map((link) => (
             <li key={link.name} className="relative group py-7">
               <Link
                 href={link.href || "#"}
@@ -52,7 +69,6 @@ function Navbar() {
                 )}
               </Link>
 
-              {/* Dropdown Menu - Themed with bg-card */}
               {link.links && (
                 <div className="absolute top-full left-0 w-52 bg-card border border-border rounded-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-2xl py-3 overflow-hidden">
                   {link.links.map((sub) => (
@@ -87,12 +103,10 @@ function Navbar() {
               <span className="text-black text-[10px] font-black">ID</span>
             </div>
             <span className="text-foreground text-[11px] font-black uppercase tracking-tighter hidden sm:block group-hover:text-primary transition-colors">
-              Nickname
+              {t("nav.nickname")}
             </span>
           </div>
-
-            <ThemeToggle />
-
+          <ThemeToggle />
         </div>
       </div>
 
@@ -107,9 +121,8 @@ function Navbar() {
         <div className="p-6 border-b border-border">
           <SearchBar />
         </div>
-
         <ul className="flex flex-col p-8 space-y-8 overflow-y-auto max-h-[calc(100vh-160px)]">
-          {navigationLinks.map((link) => (
+          {navLinks.map((link) => (
             <li key={link.name}>
               <Link
                 href={link.href || "#"}
@@ -120,7 +133,6 @@ function Navbar() {
               >
                 {link.name}
               </Link>
-
               {link.links && (
                 <ul className="mt-4 ml-2 space-y-4 border-l-2 border-primary/20 pl-6">
                   {link.links.map((sub) => (
@@ -139,6 +151,10 @@ function Navbar() {
               )}
             </li>
           ))}
+          {/* Mobile Language Switcher */}
+          <div className="pt-4 border-t border-border">
+            <LanguageSelect />
+          </div>
         </ul>
       </div>
     </nav>

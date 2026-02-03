@@ -1,18 +1,21 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
-
-const options = [
-  { value: "en", label: "EN" },
-  { value: "am", label: "AM" },
-  { value: "ru", label: "RU" },
-];
+import { Language, useLanguageStore } from "@/src/store/useLanguageStore";
 
 export default function LanguageSelect() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(options[0]);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { lang, setLang } = useLanguageStore();
 
+  const options: { code: Language; label: string }[] = [
+    { code: "en", label: "English (EN)" },
+    { code: "am", label: "Հայերեն (AM)" },
+    { code: "ru", label: "Русский (RU)" },
+  ];
+
+  // Find the label for the current active language
+  const currentLabel = options.find((opt) => opt.code === lang)?.code.toUpperCase() || "EN";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -24,32 +27,46 @@ export default function LanguageSelect() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleSelect = (code: Language) => {
+    setLang(code);
+    setIsOpen(false);
+  };
+
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative inline-block text-left" ref={dropdownRef}>
+      {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 hover:border-primary/50 transition-all text-[11px] font-bold text-gray-400 hover:text-white uppercase tracking-widest"
+        className="flex items-center gap-2 px-3 py-2 rounded-xl bg-card border border-border hover:border-primary/50 transition-all text-[11px] font-black text-muted hover:text-foreground uppercase tracking-[0.1em]"
       >
-        {selected.label}
-        <ChevronDown size={14} className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <span>{currentLabel}</span>
+        <ChevronDown 
+          size={14} 
+          className={`text-primary transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} 
+        />
       </button>
 
+      {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-20 bg-card border border-white/5 rounded-xl shadow-2xl py-2 z-[110] overflow-hidden">
-          {options.map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() => {
-                setSelected(opt);
-                setIsOpen(false);
-              }}
-              className={`w-full text-left px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-colors ${
-                selected.value === opt.value ? "text-primary bg-white/5" : "text-gray-400 hover:bg-primary hover:text-black"
-              }`}
-            >
-              {opt.label}
-            </button>
-          ))}
+        <div className="absolute right-0 mt-2 w-32 origin-top-right z-[110] bg-card border border-border rounded-2xl shadow-2xl p-1.5 animate-in fade-in zoom-in-95 duration-200">
+          <div className="flex flex-col gap-1">
+            {options.map((opt) => (
+              <button
+                key={opt.code}
+                onClick={() => handleSelect(opt.code)}
+                className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-[10px] font-black transition-all uppercase tracking-wider ${
+                  lang === opt.code
+                    ? "bg-primary text-black shadow-lg shadow-primary/20"
+                    : "text-muted hover:bg-white/5 hover:text-foreground"
+                }`}
+              >
+                {opt.label}
+                {lang === opt.code && (
+                  <div className="w-1 h-1 rounded-full bg-black" />
+                )}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>

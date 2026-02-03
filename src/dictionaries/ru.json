@@ -1,0 +1,11 @@
+{
+    "common": {
+      "view_all": "Смотреть все",
+      "try_again": "Попробовать снова",
+      "search_placeholder": "Поиск фильмов, сериалов..."
+    },
+    "home": {
+      "hero_title": "Выбирай свой <span class='text-primary'>Опыт</span>",
+      "recently_updated": "Недавно обновленные"
+    }
+  }
