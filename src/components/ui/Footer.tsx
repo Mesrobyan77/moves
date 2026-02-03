@@ -8,7 +8,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="w-full bg-background py-10 flex items-center transition-colors duration-300">
+    <footer className="w-full bg-background py-10 flex items-center transition-colors duration-300 relative z-20">
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-10">
         
         {/* Brand & Copyright */}
