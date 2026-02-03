@@ -1,161 +1,158 @@
 "use client";
-import { useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useEffect, useMemo } from "react";
+import { useParams, useSearchParams } from "next/navigation";
 import { useMovieStore } from "@/src/store/getmoviesSlice";
-import { IMovieDetails } from "@/src/types";
-import Image from "next/image";
 import Card from "@/src/components/ui/Card";
-import MovieError from "@/src/components/ui/MovieError";
 import Trailer from "@/src/components/ui/Trailer";
+import MovieError from "@/src/components/ui/MovieError";
+import Loading from "@/src/components/ui/Loading";
+import MovieDiscoverySection from "@/src/components/MovieDiscoverySection";
+import { IMovie, IMovieDetails, ITMDBDetails } from "@/src/types";
 
 export default function MovieDetailsPage() {
   const { id } = useParams();
+  const searchParams = useSearchParams();
+  const typeHelper = searchParams.get("type");
   const {
     currentMovie,
-    fetchMovieDetails,
-    upcoming,
+    fetchByIdAndType,
     fetchUpcoming,
     loading,
     error,
+    recommendations,
+    fetchRecommendations,
+    fetchSimilar,
+    similar,
   } = useMovieStore();
 
   useEffect(() => {
-    if (id) fetchMovieDetails(id as string);
-    fetchUpcoming();
-  }, [id]);
+    if (id) {
+      fetchUpcoming();
+      fetchByIdAndType(id as string, typeHelper || null);
+      fetchRecommendations(id as string, typeHelper || "");
+      fetchSimilar(id as string, typeHelper || "");
+    }
+  }, [id, typeHelper, fetchByIdAndType, fetchUpcoming]);
 
-  if (loading || !currentMovie)
-    return <div className="loading-spinner">Loading...</div>;
+  const movieData = useMemo(() => {
+    if (!currentMovie) return null;
+    const m = currentMovie as IMovieDetails & ITMDBDetails; 
+    const isAnime =
+      m.origin_country?.includes("JP") &&
+      m.genres?.some((g: { id: number; name: string }) => g.id === 16);
+    return {
+      title: m.name || m.title,
+      type: isAnime ? "anime" : m.first_air_date ? "tv" : "movie",
+      seasons: m.seasons || [],
+      rating: m.vote_average?.toFixed(1),
+      overview: m.overview,
+      genres: m.genres
+        ?.map((g: { id: number; name: string }) => g.name)
+        .join(", "),
+      runtime: m.runtime
+        ? `${m.runtime} min`
+        : m.number_of_seasons
+        ? `${m.number_of_seasons} Seasons`
+        : "N/A",
+      backdrop: `https://image.tmdb.org/t/p/original${m.backdrop_path}`,
+      releaseDate: m.release_date || m.first_air_date,
+      country: m.origin_country?.join(", ") || "USA",
+    };
+  }, [currentMovie]);
+
+  if (loading || !movieData) {
+    return <Loading />;
+  }
 
   if (error) {
-    <MovieError
-      message={error}
-      onRetry={() => {
-        if (id) fetchMovieDetails(id as string);
-      }}
-    />;
+    return (
+      <MovieError
+        message={error}
+        onRetry={() => id && fetchByIdAndType(id as string, typeHelper)}
+      />
+    );
   }
-  const movie = currentMovie as IMovieDetails;
-  const backdrop = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
-  const poster = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
   return (
-    <main className="min-h-screen  bg-background text-white font-sans">
-      {/* HEADER SECTION */}
-      <section
-        className="relative pt-20 pb-12 bg-cover bg-center"
-        style={{
-          backgroundImage: `linear-gradient(rgb(26, 25, 31), rgb(26, 25, 31,0.4)), url(${backdrop})`,
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-light mb-8">{movie.title}</h1>
+    <main className="relative min-h-screen bg-background text-foreground transition-colors duration-300 overflow-x-hidden">
+      {/* 1. DYNAMIC BACKGROUND LAYER */}
+      <div
+        className="fixed inset-0 z-0 opacity-40 bg-cover bg-center pointer-events-none"
+        style={{ backgroundImage: `url(${movieData.backdrop})` }}
+      />
+      {/* Gradient overlay using the CSS variable --background */}
+      <div className="fixed inset-0 z-0 bg-gradient-to-b from-transparent via-[#1a191f]/50 to-[#1a191f] pointer-events-none" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            {/* Left: Poster and Info */}
-            <div className="flex flex-col md:flex-row gap-6">
-              <div className="w-62 h-full">
-                <Card movies={movie} showName={false} />
+      {/* 2. CONTENT WRAPPER */}
+      <div className="relative z-10">
+        {/* HEADER SECTION */}
+        <section className="pt-32 pb-12">
+          <div className="container mx-auto px-4 max-w-[1200px]">
+            <h1 className="text-4xl md:text-5xl font-bebas tracking-tight mb-10 text-foreground">
+              {movieData.title}
+            </h1>
+
+            <div className="flex flex-col lg:flex-row gap-10 items-start">
+              {/* Poster Card */}
+              <div className="shrink-0 mx-auto lg:mx-0 shadow-2xl z-20 relative pointer-events-none">
+                <Card movies={currentMovie as IMovie} showName={false} />
               </div>
 
-              <div className="flex-1 space-y-3 text-sm">
-                <p>
-                  <span className="text-gray-400">Genre:</span>{" "}
-                  <span className="text-primary">
-                    {movie.genres.map((g) => g.name).join(", ")}
-                  </span>
-                </p>
-                <p>
-                  <span className="text-gray-400">Release:</span>{" "}
-                  <span className="text-primary">
-                    {new Date(movie.release_date).getFullYear()}
-                  </span>
-                </p>
-                <p>
-                  <span className="text-gray-400">Running time:</span>{" "}
-                  <span className="text-primary">{movie.runtime} min</span>
-                </p>
-                <p>
-                  <span className="text-gray-400">Country:</span>{" "}
-                  <span className="text-primary">
-                    {movie.origin_country.join(", ")}
-                  </span>
-                </p>
+              {/* Movie Info */}
+              <div className="space-y-4 text-[15px] font-geist">
+                <div className="space-y-3">
+                  <InfoItem label="Genre" value={movieData.genres} isAccent />
+                  <InfoItem label="Rating" value={movieData.rating} />
+                  <InfoItem 
+                    label="Release" 
+                    value={new Date(movieData.releaseDate || 0).getFullYear().toString()} 
+                  />
+                  <InfoItem label="Running time" value={movieData.runtime} />
+                  <InfoItem label="Country" value={movieData.country} isAccent />
+                </div>
 
-                <div className="mt-6 p-4 bg-[#28282d] rounded-lg border border-white/5 max-h-48 overflow-y-auto custom-scrollbar">
-                  <p className="leading-relaxed text-gray-300">
-                    {movie.overview}
+                {/* Description Box with Accent Side-Bar */}
+                <div className="relative mt-8 max-w-md p-6 bg-card/80 backdrop-blur-md rounded-2xl border border-border shadow-xl">
+                  <p className="leading-relaxed text-text-light text-sm italic">
+                    {movieData.overview}
                   </p>
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0.5 h-12 bg-primary shadow-[0_0_10px_var(--color-primary)]" />
                 </div>
               </div>
-            </div>
 
-            {/* Right: Video Player */}
-            {/* <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border border-white/5"> */}
-              <Trailer movieId={id as string} />
-            {/* </div> */}
-          </div>
-        </div>
-      </section>
-
-      {/* DISCOVER SECTION */}
-      <section className="py-12 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-12">
-            {/* Left: Comments/Tabs */}
-            <div className="flex-1">
-              <h2 className="text-3xl font-light mb-6">Discover</h2>
-              <div className="flex gap-8 border-b border-white/10 mb-8 pb-2">
-                <button className="text-[#f9ab00] border-b-2 border-[#f9ab00] pb-2 uppercase text-sm tracking-widest">
-                  Comments
-                </button>
-                <button className="text-gray-400 hover:text-white uppercase text-sm tracking-widest">
-                  Reviews
-                </button>
-                <button className="text-gray-400 hover:text-white uppercase text-sm tracking-widest">
-                  Photos
-                </button>
-              </div>
-
-              {/* Sample Comment Item */}
-              <div className="space-y-6">
-                {[1, 2].map((_, i) => (
-                  <div
-                    key={i}
-                    className="bg-[#28282d] p-6 rounded-xl border border-white/5"
-                  >
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-gray-600 rounded-full" />
-                      <div>
-                        <h4 className="font-bold text-sm">John Doe</h4>
-                        <span className="text-xs text-gray-500">
-                          30.08.2018, 17:53
-                        </span>
-                      </div>
-                    </div>
-                    <p className="text-gray-400 text-sm leading-relaxed">
-                      There are many variations of passages of Lorem Ipsum
-                      available, but the majority have suffered alteration...
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="w-full lg:w-80">
-              <h2 className="text-2xl font-light mb-6 italic">
-                You may also like...
-              </h2>
-              <div className="grid grid-cols-2 lg:grid-cols-2 gap-6">
-                {upcoming.slice(0, 4).map((m) => (
-                  <Card key={m.id} movies={m} />
-                ))}
+              {/* Right Column: Video Player */}
+              <div className="w-full lg:flex-1">
+                <Trailer
+                  movieId={id as string}
+                  type={movieData.type as "movie" | "tv" | "anime"}
+                  seasonsData={movieData.seasons}
+                />
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* RECOMMENDATIONS SECTION */}
+        <MovieDiscoverySection
+          upcomingMovies={
+            recommendations.length > 0 ? recommendations : similar
+          }
+        />
+      </div>
     </main>
   );
 }
- 
+
+// Helper component for cleaner UI mapping
+function InfoItem({ label, value, isAccent = false }: { label: string, value: string | undefined, isAccent?: boolean }) {
+  return (
+    <p>
+      <span className="text-text-light font-bold uppercase text-[11px] tracking-widest">
+        {label}:
+      </span>
+      <span className={`ml-2 ${isAccent ? "text-primary hover:underline cursor-pointer" : "text-foreground"}`}>
+        {value}
+      </span>
+    </p>
+  );
+}

@@ -8,53 +8,52 @@ const Footer = () => {
   };
 
   return (
-    <footer className="w-full bg-background border-t border-border py-10">
-      <div className="container flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10">
-          <div className="text-3xl font-bold tracking-tighter">
+    <footer className="w-full bg-background py-10 flex items-center transition-colors duration-300">
+      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-10">
+        
+        {/* Brand & Copyright */}
+        <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+          <div className="text-3xl font-bebas tracking-wider">
             <span className="text-primary italic">HOT</span>
-            <span className="text-white italic">FLIX</span>
+            <span className="text-foreground italic">FLIX</span>
           </div>
 
-          <div className="text-zinc-500 text-sm font-light text-center md:text-left leading-relaxed">
+          <div className="text-muted text-sm font-light text-center md:text-left leading-relaxed">
             <p>© HOTFLIX, {new Date().getFullYear()}</p>
             <p>
-              Create by{" "}
-              <span className="text-primary hover:underline cursor-pointer">
+              Created by{" "}
+              <span className="text-primary hover:text-accent transition-colors font-medium cursor-pointer">
                 Merobyan77
               </span>
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-8 md:gap-12">
+        {/* Navigation & Action */}
+        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
           <nav className="flex items-center gap-6 md:gap-10">
-            <Link
-              href="/about"
-              className="text-white text-[15px] hover:text-primary transition-colors"
-            >
-              About Us
-            </Link>
-            <Link
-              href="/contacts"
-              className="text-white text-[15px] hover:text-primary transition-colors"
-            >
-              Contacts
-            </Link>
-            <Link
-              href="/privacy"
-              className="text-white text-[15px] hover:text-primary transition-colors"
-            >
-              Privacy policy
-            </Link>
+            {[
+              { label: "About Us", href: "/about" },
+              { label: "Contacts", href: "/contacts" },
+              { label: "Privacy policy", href: "/privacy" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-foreground/80 text-[14px] uppercase tracking-widest font-bebas hover:text-primary transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
 
+          {/* Scroll to Top */}
           <button
             onClick={scrollToTop}
-            className="group flex cursor-pointer items-center justify-center w-12 h-12 rounded-xl border-2 border-primary/40 hover:border-primary transition-all duration-300"
+            className="group flex cursor-pointer items-center justify-center w-12 h-12 rounded-2xl bg-card border border-border hover:border-primary shadow-xl transition-all duration-500 hover:shadow-primary/10"
             aria-label="Scroll to top"
           >
-            <ArrowUp className="w-5 h-5 text-primary group-hover:-translate-y-1 transition-transform" />
+            <ArrowUp className="w-5 h-5 text-primary group-hover:-translate-y-1 transition-transform duration-300" />
           </button>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { Geist, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/src/components/ui/Navbar";
 import Footer from "@/src/components/ui/Footer";
+import { ThemeProvider } from "@/src/components/providers/ThemeProvider";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const bebasNeue = Bebas_Neue({
@@ -22,11 +23,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${bebasNeue.variable} ${geistSans.variable} antialiased`}>
-        <Navbar />
-        {children}
-        <Footer/>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+        >
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
