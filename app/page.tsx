@@ -34,7 +34,7 @@ export default function Home() {
     (tab: string) => {
       fetchContentByTab(tab);
     },
-    [fetchContentByTab]
+    [fetchContentByTab],
   );
 
   if (loading && movies.length === 0) return <Loading />;

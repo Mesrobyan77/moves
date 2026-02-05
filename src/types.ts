@@ -33,7 +33,6 @@ export interface TMDBResponse {
   total_results: number;
 }
 
-
 export interface IMovieDetails {
   adult: boolean;
   backdrop_path: string;
@@ -106,8 +105,8 @@ export interface ITMDBSeason {
 
 export interface ITMDBDetails {
   id: number;
-  name?: string;           // TV/Anime-ի համար
-  title?: string;          // Movie-ի համար
+  name?: string;
+  title?: string;
   original_name?: string;
   number_of_seasons?: number;
   number_of_episodes?: number;
@@ -122,7 +121,6 @@ export interface ITMDBDetails {
   vote_average: number;
   first_air_date?: string;
 }
-
 
 export interface IGenre {
   id: number;

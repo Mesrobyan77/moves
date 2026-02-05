@@ -20,12 +20,12 @@ export default function MovieCarousel({
 }) {
   const router = useRouter();
   const { t } = useTranslation();
-  
+
   return (
     <div className="w-full py-6 md:py-10 container mx-auto px-4 transition-colors duration-300">
       <div className="flex items-center justify-between mb-6 md:mb-8">
         <h2 className="text-2xl sm:text-3xl md:text-5xl font-bebas tracking-wider text-foreground font-bold leading-none uppercase">
-          {title ? title[0] : t('home.expected')}{" "}
+          {title ? title[0] : t("home.expected")}{" "}
           <span className="text-muted font-normal">
             {title ? title[1] : new Date().getFullYear()}
           </span>
@@ -37,10 +37,10 @@ export default function MovieCarousel({
               onClick={() => router.push("/catalog")}
               className="hidden sm:flex items-center justify-center px-5 h-10 text-foreground rounded-xl bg-card border border-border text-[12px] font-bebas tracking-widest cursor-pointer uppercase hover:text-primary hover:border-primary/50 transition-all active:scale-95"
             >
-              {t('home.view_all')}
+              {t("home.view_all")}
             </button>
           )}
-          
+
           <button className="swiper-prev-btn p-2 border border-border rounded-xl text-foreground bg-card hover:bg-primary hover:text-black transition-all cursor-pointer">
             <ChevronLeft size={20} />
           </button>

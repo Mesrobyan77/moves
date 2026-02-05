@@ -232,7 +232,7 @@ export const translations = {
       seasons: "Seasons",
       minutes: "min",
       discovery_title: "Recommendations",
-      not_available: "N/A"
+      not_available: "N/A",
     },
   },
   am: {
@@ -466,7 +466,7 @@ export const translations = {
       seasons: "Եթերաշրջան",
       minutes: "րոպե",
       discovery_title: "Առաջարկվող ֆիլմեր",
-      not_available: "Առկա չէ"
+      not_available: "Առկա չէ",
     },
   },
   ru: {
@@ -699,7 +699,7 @@ export const translations = {
       seasons: "Сезонов",
       minutes: "мин",
       discovery_title: "Рекомендации",
-      not_available: "Н/Д"
+      not_available: "Н/Д",
     },
   },
 };

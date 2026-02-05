@@ -6,7 +6,11 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export default function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+export default function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const getPageNumbers = () => {
@@ -23,7 +27,6 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          // Replaced bg-[#1a191f] with bg-card, border-white/5 with border-border, and text-gray-500 with text-muted
           className="w-10 h-10 rounded-lg bg-card border border-border flex items-center justify-center text-muted hover:text-primary disabled:opacity-20 transition-colors"
         >
           «
@@ -34,9 +37,8 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
             key={page}
             onClick={() => onPageChange(page)}
             className={`w-10 h-10 rounded-lg font-bold transition-all ${
-              // Replaced #f9ab00 with primary and background/border colors with theme variables
-              currentPage === page 
-                ? "bg-primary text-black" 
+              currentPage === page
+                ? "bg-primary text-black"
                 : "bg-card border border-border text-muted hover:text-primary"
             }`}
           >
@@ -47,7 +49,6 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          // Replaced background and text colors with theme variables
           className="w-10 h-10 rounded-lg bg-card border border-border flex items-center justify-center text-muted hover:text-primary disabled:opacity-20 transition-colors"
         >
           »

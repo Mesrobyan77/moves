@@ -16,16 +16,23 @@ function Card({ movies, showName = true, helperName }: CardProps) {
   const handleCardClick = () => {
     let typeParam = "movie";
     if (helperName === "tv") typeParam = "tv";
-    if (helperName === "Anime" || helperName === 'anime') typeParam = "anime";
+    if (helperName === "Anime" || helperName === "anime") typeParam = "anime";
     console.log(typeParam);
     router.push(`/movie/${movies.id}?type=${typeParam}`);
   };
 
   return (
-    <div onClick={handleCardClick} className="movie-card group relative cursor-pointer overflow-hidden rounded-xl">
-      <div className={`absolute top-2 left-2 md:top-3 md:left-3 rounded-full bg-[#0000007c] border p-3 md:p-1.5 z-20 text-[10px] md:text-xs font-bold ${
-        movies?.vote_average >= 7 ? "border-green-500 text-green-500" : "border-yellow-500 text-yellow-500"
-      }`}>
+    <div
+      onClick={handleCardClick}
+      className="movie-card group relative cursor-pointer overflow-hidden rounded-xl"
+    >
+      <div
+        className={`absolute top-2 left-2 md:top-3 md:left-3 rounded-full bg-[#0000007c] border p-3 md:p-1.5 z-20 text-[10px] md:text-xs font-bold ${
+          movies?.vote_average >= 7
+            ? "border-green-500 text-green-500"
+            : "border-yellow-500 text-yellow-500"
+        }`}
+      >
         {movies?.vote_average?.toFixed(1) || "0.0"}
       </div>
 
@@ -44,7 +51,10 @@ function Card({ movies, showName = true, helperName }: CardProps) {
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <div className="bg-white/35 backdrop-blur-sm p-2 rounded-full border border-white/30 transform scale-50 group-hover:scale-100 transition-transform duration-300">
             <div className="bg-white backdrop-blur-sm p-2 rounded-full border border-white/30">
-              <Play size={30} className="fill-[#f9ab00] text-[#f9ab00] translate-x-0.5" />
+              <Play
+                size={30}
+                className="fill-[#f9ab00] text-[#f9ab00] translate-x-0.5"
+              />
             </div>
           </div>
         </div>

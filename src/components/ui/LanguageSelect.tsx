@@ -14,12 +14,15 @@ export default function LanguageSelect() {
     { code: "ru", label: "Русский (RU)" },
   ];
 
-  // Find the label for the current active language
-  const currentLabel = options.find((opt) => opt.code === lang)?.code.toUpperCase() || "EN";
+  const currentLabel =
+    options.find((opt) => opt.code === lang)?.code.toUpperCase() || "EN";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -34,19 +37,17 @@ export default function LanguageSelect() {
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 rounded-xl bg-card border border-border hover:border-primary/50 transition-all text-[11px] font-black text-muted hover:text-foreground uppercase tracking-[0.1em]"
       >
         <span>{currentLabel}</span>
-        <ChevronDown 
-          size={14} 
-          className={`text-primary transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} 
+        <ChevronDown
+          size={14}
+          className={`text-primary transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
 
-      {/* Dropdown Menu */}
       {isOpen && (
         <div className="absolute right-0 mt-2 w-32 origin-top-right z-[110] bg-card border border-border rounded-2xl shadow-2xl p-1.5 animate-in fade-in zoom-in-95 duration-200">
           <div className="flex flex-col gap-1">

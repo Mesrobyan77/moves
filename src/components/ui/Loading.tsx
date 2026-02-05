@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 export default function Loading() {
   return (
@@ -7,7 +7,7 @@ export default function Loading() {
         <div className="absolute inset-0 rounded-full border-4 border-muted opacity-20"></div>
         <div className="absolute inset-0 rounded-full border-4 border-t-primary animate-spin"></div>
       </div>
-      
+
       <h2 className="mt-6 text-4xl font-bebas tracking-widest text-primary animate-pulse">
         Hotflix
       </h2>

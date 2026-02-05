@@ -8,14 +8,14 @@ export const navigationLinks: NavigationLink[] = [
   { name: "Home", href: "/" },
   { name: "Catalog", href: "/catalog" },
   { name: "Pricing Plan", href: "/pricing" },
-  { 
-    name: "Pages", 
+  {
+    name: "Pages",
     links: [
       { name: "About Us", href: "/about" },
       { name: "Help Center", href: "/help" },
       { name: "Contacts", href: "/contacts" },
       { name: "Privacy Policy", href: "/privacy" },
-    ] 
+    ],
   },
 ] as const;
 

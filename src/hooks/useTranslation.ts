@@ -1,13 +1,13 @@
 // src/hooks/useTranslation.ts
 
-import { translations} from "../dictionaries";
+import { translations } from "../dictionaries";
 import { Language, useLanguageStore } from "../store/useLanguageStore";
 
 export const useTranslation = () => {
-  const { lang } = useLanguageStore(); // Վերցնում ենք ընթացիկ լեզուն (en, am, ru)
+  const { lang } = useLanguageStore();
 
   const t = (path: string): string => {
-    const keys = path.split('.');
+    const keys = path.split(".");
     let result: any = translations[lang as Language] || translations.en;
 
     for (const key of keys) {

@@ -30,7 +30,7 @@ interface MovieState {
       sortBy?: string;
       rating?: number;
       page?: number;
-    }
+    },
   ) => Promise<void>;
   searchContent: (query: string) => Promise<void>;
 }
@@ -161,9 +161,9 @@ export const useMovieStore = create<MovieState>((set, get) => ({
     set({ searchLoading: true, error: null });
     try {
       const res = await API.search(query);
-      console.log(res.data.results,'gtnel typeyyyyy');
+      console.log(res.data.results, "gtnel typeyyyyy");
       const filteredResults = res.data.results.filter(
-        (item: IMovie) => item.media_type !== "person"
+        (item: IMovie) => item.media_type !== "person",
       );
       set({ searchResults: filteredResults, searchLoading: false });
     } catch {

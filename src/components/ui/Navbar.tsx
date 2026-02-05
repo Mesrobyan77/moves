@@ -13,7 +13,7 @@ function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
-  
+
   const navLinks = [
     { name: t("nav.home"), href: "/" },
     { name: t("nav.pricing"), href: "/pricing" },
@@ -34,7 +34,6 @@ function Navbar() {
   return (
     <nav className="border-b border-border bg-background/80 backdrop-blur-md h-20 flex items-center sticky top-0 z-[100] transition-colors duration-300">
       <div className="container mx-auto flex items-center justify-between px-4 gap-2">
-        {/* Left Side: Burger & Logo */}
         <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
           <button
             className="md:hidden text-foreground focus:outline-none p-1 hover:text-primary transition-colors"
@@ -51,7 +50,6 @@ function Navbar() {
           </Link>
         </div>
 
-        {/* Desktop Navigation Links */}
         <ul className="hidden md:flex items-center space-x-6 lg:space-x-8">
           {navLinks.map((link) => (
             <li key={link.name} className="relative group py-7">
@@ -89,7 +87,6 @@ function Navbar() {
           ))}
         </ul>
 
-        {/* Search & Language */}
         <div className="hidden md:flex flex-1 max-w-[400px] mx-4 items-center gap-3">
           <SearchBar />
           <div className="hidden lg:block shrink-0">
@@ -97,7 +94,6 @@ function Navbar() {
           </div>
         </div>
 
-        {/* Right Side: Profile & Theme */}
         <div className="flex items-center flex-shrink-0 gap-4 lg:gap-6">
           <div className="flex items-center gap-3 cursor-pointer group bg-card p-1.5 pr-3 rounded-2xl border border-border hover:border-primary/50 transition-all shadow-sm">
             <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 transition-transform group-hover:scale-105">
@@ -111,7 +107,6 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
       <div
         className={`fixed inset-0 top-20 bg-background z-40 transition-all duration-500 md:hidden ${
           isOpen
@@ -152,7 +147,7 @@ function Navbar() {
               )}
             </li>
           ))}
-          {/* Mobile Language Switcher */}
+
           <div className="pt-4 border-t border-border">
             <LanguageSelect />
           </div>

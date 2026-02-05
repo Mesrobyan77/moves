@@ -10,8 +10,6 @@ const Footer = () => {
   return (
     <footer className="w-full bg-background py-10 flex items-center transition-colors duration-300 relative z-20">
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-10">
-        
-        {/* Brand & Copyright */}
         <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
           <div className="text-3xl font-bebas tracking-wider">
             <span className="text-primary italic">HOT</span>
@@ -29,7 +27,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Navigation & Action */}
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
           <nav className="flex items-center gap-6 md:gap-10">
             {[
@@ -47,7 +44,6 @@ const Footer = () => {
             ))}
           </nav>
 
-          {/* Scroll to Top */}
           <button
             onClick={scrollToTop}
             className="group flex cursor-pointer items-center justify-center w-12 h-12 rounded-2xl bg-card border border-border hover:border-primary shadow-xl transition-all duration-500 hover:shadow-primary/10"
