@@ -40,8 +40,6 @@ export default function CatalogPage() {
   const [selectedSort, setSelectedSort] = useState<string>("popularity.desc");
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
 
-  // --- Derived States (Հաշվարկվող փոփոխականներ) ---
-  // Սա լուծում է ESLint-ի setState-ի խնդիրը և ավտոմատ թարմացվում է լեզուն փոխելիս
 
   const sortOptions = useMemo(() => [
     { label: t('catalog.sort.popularity'), value: "popularity.desc" },
@@ -135,6 +133,7 @@ export default function CatalogPage() {
   const isSearching = searchQuery.trim().length > 2;
   const displayMovies = isSearching && !searchError ? searchResults : movies;
 
+  console.log(selectedType);
   return (
     <main className="min-h-screen bg-background text-foreground pt-12 pb-20 transition-colors duration-300">
       {/* Header */}
@@ -254,7 +253,7 @@ export default function CatalogPage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-6 gap-y-12">
               {displayMovies.map((movie: IMovie) => (
                 <div key={movie.id} className="group">
-                  <Card movies={movie} showName={false} />
+                  <Card movies={movie} showName={false}  helperName={selectedType}/>
                   <div className="mt-4 px-1">
                     <h3 className="text-sm font-bebas tracking-wide truncate group-hover:text-primary transition-all uppercase">
                         {movie.title || movie.name}

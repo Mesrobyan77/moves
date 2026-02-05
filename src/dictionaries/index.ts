@@ -1,3 +1,5 @@
+import { p } from "framer-motion/client";
+
 export const translations = {
   en: {
     nav: {
@@ -10,6 +12,7 @@ export const translations = {
       help_center: "Help Center",
       contacts: "Contacts",
       privacy: "Privacy Policy",
+      pages: "Pages",
     },
     home: {
       hero_new: "NEW ITEMS",
@@ -243,6 +246,7 @@ export const translations = {
       help_center: "Օգնության կենտրոն",
       contacts: "Կոնտակտներ",
       privacy: "Գաղտնիության քաղաքականություն",
+      pages: "Էջեր",
     },
     home: {
       hero_new: "ՆՈՐՈՒՅԹՆԵՐ",
@@ -476,6 +480,7 @@ export const translations = {
       help_center: "Центр помощи",
       contacts: "Контакты",
       privacy: "Политика конфиденциальности",
+      pages: "Страницы",
     },
     home: {
       hero_new: "НОВИНКИ",

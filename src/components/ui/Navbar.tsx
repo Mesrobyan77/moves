@@ -18,9 +18,10 @@ function Navbar() {
     { name: t("nav.home"), href: "/" },
     { name: t("nav.pricing"), href: "/pricing" },
     { name: t("nav.help"), href: "/help" },
+    { name: t("nav.catalog"), href: "/catalog" },
     {
-      name: t("nav.catalog"),
-      href: "/catalog",
+      name: t("nav.pages"),
+      href: "#",
       links: [
         { name: t("nav.about_us"), href: "/about" },
         { name: t("nav.help_center"), href: "/help" },

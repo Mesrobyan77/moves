@@ -15,8 +15,9 @@ function Card({ movies, showName = true, helperName }: CardProps) {
 
   const handleCardClick = () => {
     let typeParam = "movie";
-    if (helperName === "TV Shows") typeParam = "tv";
-    if (helperName === "Anime") typeParam = "anime";
+    if (helperName === "tv") typeParam = "tv";
+    if (helperName === "Anime" || helperName === 'anime') typeParam = "anime";
+    console.log(typeParam);
     router.push(`/movie/${movies.id}?type=${typeParam}`);
   };
 
